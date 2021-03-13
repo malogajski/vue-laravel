@@ -21,3 +21,6 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 // Get Contacts
 Route::get('getContacts', [ContactController::class, 'getContacts']);
+
+// Save Contacts
+Route::post('setContacts', [ContactController::class, 'setContacts']);

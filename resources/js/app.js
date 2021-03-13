@@ -1,3 +1,16 @@
+import Vue from "vue";
+import Home from '../js/components/Home';
+import ContactList from '../js/components/ContactList';
+import AddContact from '../js/components/AddContact';
+
+// sweet alert 2
+import VueSweetalert2 from "vue-sweetalert2";
+window.Swal = require('sweetalert2');
+Vue.use(VueSweetalert2);
+
+import utils from './helpers/utilitis';
+Vue.prototype.$utils = utils;
+
 require('./bootstrap');
 window.Vue = require('vue').default;
 
@@ -9,8 +22,6 @@ Vue.use(VueRouter);
 
 import App from './App.vue';
 
-import Home from '../js/components/Home'
-import ContactList from '../js/components/ContactList'
 
 
 Vue.use("VueAxios", axios);
@@ -24,6 +35,10 @@ const routes = [
         name: '/contacts',
         path: '/contacts',
         component: ContactList
+    }, {
+        name: '/add_contact',
+        path: '/add_contact',
+        component: AddContact
     }
 ];
 
