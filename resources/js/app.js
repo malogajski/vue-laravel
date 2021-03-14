@@ -2,6 +2,7 @@ import Vue from "vue";
 import Home from '../js/components/Home';
 import ContactList from '../js/components/ContactList';
 import AddContact from '../js/components/AddContact';
+import EditContact from "./components/EditContact";
 
 // sweet alert 2
 import VueSweetalert2 from "vue-sweetalert2";
@@ -39,6 +40,10 @@ const routes = [
         name: '/add_contact',
         path: '/add_contact',
         component: AddContact
+    }, {
+        name: '/get_contact',
+        path: '/get_contact/edit/:id?',
+        component: EditContact
     }
 ];
 

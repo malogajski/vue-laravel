@@ -5,7 +5,7 @@
 
         <div class="card-body">
             <div class="col-md-6 offset-md-3">
-                <form id="validateForm" @submit.prevent="setContact" enctype="multipart/form-data" novalidate>
+                <form name="validateForm" @submit.prevent="updateContact" enctype="multipart/form-data" novalidate>
 
                     <div class="aler alert-danger" v-if="errors.length">
                         <ul class="mb-0">
@@ -45,14 +45,11 @@
                                v-model="contact.contact_no">
                     </div>
 
-                    <!--                    <div class="custom-file">-->
-                    <!--                        <input type="file" name="image" class="custom-file-input" id="validatedCustomFile">-->
-                    <!--                        <label for="validatedCustomFile">Choose file...</label>-->
-                    <!--                    </div>-->
-
+                    <div class="form-group" v-if="contact.image">
+                        <img :src="`${url + '/' + contact.image}`" alt="image" style="max-height: 200px; width: auto">
+                    </div>
                     <div class="form-group">
-                        <input type="file" class="form-control" id="validatedCustomFile" v-on:change="saveImage">
-                        <img src="" alt="" style="max-height: 200px; width: auto" v-model="contact.image">
+                        <input type="file" class="form-control" id="validatedCustomFile" v-on:change="onImageChange" >
                     </div>
 
                     <button class="btn-primary mt-4">Submit</button>
@@ -81,7 +78,13 @@ export default {
         }
     },
     methods: {
-        setContact() {
+        localData() {
+            let url = this.url + `/api/getContact/${this.$route.params.id}`;
+                this.$http.get(url).then((response) => {
+                    this.contact = response.data;
+            });
+        },
+        updateContact() {
             this.errors = [];
             if (!this.contact.name) {
                 this.errors.push('Name is required!');
@@ -107,17 +110,14 @@ export default {
                 formData.append('designation', this.contact.designation);
                 formData.append('bio', this.contact.bio);
                 formData.append('contact_no', this.contact.contact_no);
-                let url = this.url + '/api/setContact';
-
+                let url = this.url + `/api/updateContact/${this.$route.params.id}`;
                 this.$http.post(url, formData).then((response) => {
                     if (response.status) {
-                        document.getElementById('name').value = '';
-                        document.getElementById('email').value = '';
-                        document.getElementById('designation').value = '';
-                        document.getElementById('bio').value = '';
-                        document.getElementById('contact_no').value = '';
-                        document.getElementById('validatedCustomFile').value = '';
-                        this.$utils.showSuccess('success', response.message)
+
+                        this.$utils.showSuccess('success', response.message);
+                        this.$router.push({
+                            name: '/'
+                        });
                     } else {
                         this.$utils.showError('Error', response.message)
                     }
@@ -126,12 +126,15 @@ export default {
                 });
             }
         },
-        saveImage(e) {
+        onImageChange(e) {
             this.image = e.target.files[0];
         }
     },
+    created() {
+        this.localData();
+    },
     mounted: function () {
-        console.log('Add Contacts Component Loaded');
+        console.log('Get Contact Component Loaded');
     }
 }
 </script>

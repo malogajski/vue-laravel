@@ -22,7 +22,8 @@
                 <td>{{ contact.designation }}</td>
                 <td>{{ contact.contact_no }}</td>
                 <td>
-                    <button class="btn btn-danger btn-sm">Delete</button>
+                    <button class="btn btn-danger btn-sm" @click.prevent="deleteContact(contact.id)">Delete</button>
+                    <router-link :to="{ name:'/get_contact', params: {id:contact.id} }" class="btn btn-primary btn-sm">Edit</router-link>
                 </td>
             </tr>
             </tbody>
@@ -44,6 +45,17 @@ export default {
                 .then((response) => {
                 this.contacts = response.data;
                 });
+        },
+        deleteContact(id) {
+            let url = this.url + `/api/deleteContact/${id}`;
+            this.$http.delete(url).then((response) => {
+                if (response.status) {
+                    this.loadData();
+                    this.$utils.showSuccess('success', response.message);
+                } else {
+                    this.$utils.showError('Error', response.message);
+                }
+            })
         }
     },
     mounted() {
