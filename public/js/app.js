@@ -2240,7 +2240,7 @@ __webpack_require__.r(__webpack_exports__);
             _this2.$utils.showSuccess('success', response.message);
 
             _this2.$router.push({
-              name: '/'
+              name: '/contacts'
             });
           } else {
             _this2.$utils.showError('Error', response.message);

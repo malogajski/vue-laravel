@@ -116,7 +116,7 @@ export default {
 
                         this.$utils.showSuccess('success', response.message);
                         this.$router.push({
-                            name: '/'
+                            name: '/contacts'
                         });
                     } else {
                         this.$utils.showError('Error', response.message)
