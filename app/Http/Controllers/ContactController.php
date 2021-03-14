@@ -25,7 +25,7 @@ class ContactController extends Controller
 
         $contact->name = $request->name;
         $contact->email = $request->email;
-        $contact->designation = $request->designation;
+        $contact->occupation = $request->occupation;
         $contact->bio = $request->bio;
         $contact->contact_no = $request->contact_no;
 
@@ -49,7 +49,7 @@ class ContactController extends Controller
 
         $contact->name = $request->name;
         $contact->email = $request->email;
-        $contact->designation = $request->designation;
+        $contact->occupation = $request->occupation;
         $contact->bio = $request->bio;
         $contact->contact_no = $request->contact_no;
 

@@ -1949,7 +1949,7 @@ __webpack_require__.r(__webpack_exports__);
       name: '',
       email: '',
       bio: '',
-      designation: '',
+      occupation: '',
       contact_no: '',
       errors: []
     };
@@ -1968,8 +1968,8 @@ __webpack_require__.r(__webpack_exports__);
         this.errors.push('Email is required!');
       }
 
-      if (!this.contact.designation) {
-        this.errors.push('Designation is required!');
+      if (!this.contact.occupation) {
+        this.errors.push('Occupation is required!');
       }
 
       if (!this.contact.bio) {
@@ -1985,7 +1985,7 @@ __webpack_require__.r(__webpack_exports__);
         formData.append('name', this.contact.name);
         formData.append('email', this.contact.email);
         formData.append('image', this.image);
-        formData.append('designation', this.contact.designation);
+        formData.append('occupation', this.contact.occupation);
         formData.append('bio', this.contact.bio);
         formData.append('contact_no', this.contact.contact_no);
         var url = this.url + '/api/setContact';
@@ -1993,12 +1993,16 @@ __webpack_require__.r(__webpack_exports__);
           if (response.status) {
             document.getElementById('name').value = '';
             document.getElementById('email').value = '';
-            document.getElementById('designation').value = '';
+            document.getElementById('occupation').value = '';
             document.getElementById('bio').value = '';
             document.getElementById('contact_no').value = '';
             document.getElementById('validatedCustomFile').value = '';
 
             _this.$utils.showSuccess('success', response.message);
+
+            _this.$router.push({
+              name: '/contacts'
+            });
           } else {
             _this.$utils.showError('Error', response.message);
           }
@@ -2187,7 +2191,7 @@ __webpack_require__.r(__webpack_exports__);
       name: '',
       email: '',
       bio: '',
-      designation: '',
+      occupation: '',
       contact_no: '',
       errors: []
     };
@@ -2214,8 +2218,8 @@ __webpack_require__.r(__webpack_exports__);
         this.errors.push('Email is required!');
       }
 
-      if (!this.contact.designation) {
-        this.errors.push('Designation is required!');
+      if (!this.contact.occupation) {
+        this.errors.push('Occupation is required!');
       }
 
       if (!this.contact.bio) {
@@ -2231,7 +2235,7 @@ __webpack_require__.r(__webpack_exports__);
         formData.append('name', this.contact.name);
         formData.append('email', this.contact.email);
         formData.append('image', this.image);
-        formData.append('designation', this.contact.designation);
+        formData.append('occupation', this.contact.occupation);
         formData.append('bio', this.contact.bio);
         formData.append('contact_no', this.contact.contact_no);
         var url = this.url + "/api/updateContact/".concat(this.$route.params.id);
@@ -46186,8 +46190,8 @@ var render = function() {
             ]),
             _vm._v(" "),
             _c("div", { staticClass: "form-group" }, [
-              _c("label", { attrs: { for: "designation" } }, [
-                _vm._v("Designation")
+              _c("label", { attrs: { for: "occupation" } }, [
+                _vm._v("Occupation")
               ]),
               _vm._v(" "),
               _c("input", {
@@ -46195,23 +46199,23 @@ var render = function() {
                   {
                     name: "model",
                     rawName: "v-model",
-                    value: _vm.contact.designation,
-                    expression: "contact.designation"
+                    value: _vm.contact.occupation,
+                    expression: "contact.occupation"
                   }
                 ],
                 staticClass: "form-control",
                 attrs: {
                   type: "email",
-                  id: "designation",
-                  placeholder: "Enter Designation"
+                  id: "occupation",
+                  placeholder: "Enter Occupation"
                 },
-                domProps: { value: _vm.contact.designation },
+                domProps: { value: _vm.contact.occupation },
                 on: {
                   input: function($event) {
                     if ($event.target.composing) {
                       return
                     }
-                    _vm.$set(_vm.contact, "designation", $event.target.value)
+                    _vm.$set(_vm.contact, "occupation", $event.target.value)
                   }
                 }
               })
@@ -46323,7 +46327,7 @@ var render = function() {
               _vm._v(" "),
               _c("td", [_vm._v(_vm._s(contact.email))]),
               _vm._v(" "),
-              _c("td", [_vm._v(_vm._s(contact.designation))]),
+              _c("td", [_vm._v(_vm._s(contact.occupation))]),
               _vm._v(" "),
               _c("td", [_vm._v(_vm._s(contact.contact_no))]),
               _vm._v(" "),
@@ -46378,7 +46382,7 @@ var staticRenderFns = [
         _vm._v(" "),
         _c("th", { attrs: { scope: "col" } }, [_vm._v("Email")]),
         _vm._v(" "),
-        _c("th", { attrs: { scope: "col" } }, [_vm._v("Designation")]),
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("Occupation")]),
         _vm._v(" "),
         _c("th", { attrs: { scope: "col" } }, [_vm._v("Contact Number")]),
         _vm._v(" "),
@@ -46534,8 +46538,8 @@ var render = function() {
             ]),
             _vm._v(" "),
             _c("div", { staticClass: "form-group" }, [
-              _c("label", { attrs: { for: "designation" } }, [
-                _vm._v("Designation")
+              _c("label", { attrs: { for: "occupation" } }, [
+                _vm._v("Occupation")
               ]),
               _vm._v(" "),
               _c("input", {
@@ -46543,23 +46547,23 @@ var render = function() {
                   {
                     name: "model",
                     rawName: "v-model",
-                    value: _vm.contact.designation,
-                    expression: "contact.designation"
+                    value: _vm.contact.occupation,
+                    expression: "contact.occupation"
                   }
                 ],
                 staticClass: "form-control",
                 attrs: {
                   type: "email",
-                  id: "designation",
-                  placeholder: "Enter Designation"
+                  id: "occupation",
+                  placeholder: "Enter Occupation"
                 },
-                domProps: { value: _vm.contact.designation },
+                domProps: { value: _vm.contact.occupation },
                 on: {
                   input: function($event) {
                     if ($event.target.composing) {
                       return
                     }
-                    _vm.$set(_vm.contact, "designation", $event.target.value)
+                    _vm.$set(_vm.contact, "occupation", $event.target.value)
                   }
                 }
               })

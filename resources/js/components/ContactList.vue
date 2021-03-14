@@ -8,7 +8,7 @@
                 <th scope="col">#</th>
                 <th scope="col">Name</th>
                 <th scope="col">Email</th>
-                <th scope="col">Designation</th>
+                <th scope="col">Occupation</th>
                 <th scope="col">Contact Number</th>
                 <th class="col">Action</th>
             </tr>
@@ -19,7 +19,7 @@
                 <th scope="row">{{ contact.id }}</th>
                 <td>{{ contact.name }}</td>
                 <td>{{ contact.email }}</td>
-                <td>{{ contact.designation }}</td>
+                <td>{{ contact.occupation }}</td>
                 <td>{{ contact.contact_no }}</td>
                 <td>
                     <button class="btn btn-danger btn-sm" @click.prevent="deleteContact(contact.id)">Delete</button>

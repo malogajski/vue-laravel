@@ -14,7 +14,7 @@ class Contact extends Model
         'email',
         'bio',
         'contact_no',
-        'designation',
+        'occupation',
         'image'
     ];
 }

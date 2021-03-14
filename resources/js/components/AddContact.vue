@@ -34,9 +34,9 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="designation">Designation</label>
-                        <input type="email" id="designation" class="form-control" placeholder="Enter Designation"
-                               v-model="contact.designation">
+                        <label for="occupation">Occupation</label>
+                        <input type="email" id="occupation" class="form-control" placeholder="Enter Occupation"
+                               v-model="contact.occupation">
                     </div>
 
                     <div class="form-group">
@@ -75,7 +75,7 @@ export default {
             name: '',
             email: '',
             bio: '',
-            designation: '',
+            occupation: '',
             contact_no: '',
             errors: []
         }
@@ -89,8 +89,8 @@ export default {
             if (!this.contact.email) {
                 this.errors.push('Email is required!');
             }
-            if (!this.contact.designation) {
-                this.errors.push('Designation is required!');
+            if (!this.contact.occupation) {
+                this.errors.push('Occupation is required!');
             }
             if (!this.contact.bio) {
                 this.errors.push('Bio is required!');
@@ -104,7 +104,7 @@ export default {
                 formData.append('name', this.contact.name);
                 formData.append('email', this.contact.email);
                 formData.append('image', this.image);
-                formData.append('designation', this.contact.designation);
+                formData.append('occupation', this.contact.occupation);
                 formData.append('bio', this.contact.bio);
                 formData.append('contact_no', this.contact.contact_no);
                 let url = this.url + '/api/setContact';
@@ -113,11 +113,14 @@ export default {
                     if (response.status) {
                         document.getElementById('name').value = '';
                         document.getElementById('email').value = '';
-                        document.getElementById('designation').value = '';
+                        document.getElementById('occupation').value = '';
                         document.getElementById('bio').value = '';
                         document.getElementById('contact_no').value = '';
                         document.getElementById('validatedCustomFile').value = '';
                         this.$utils.showSuccess('success', response.message)
+                        this.$router.push({
+                            name: '/contacts'
+                        });
                     } else {
                         this.$utils.showError('Error', response.message)
                     }
