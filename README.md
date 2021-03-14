@@ -4,13 +4,16 @@ Contact List is simple CRUD app written with Laravel 8 & Vue.js.
 
 ## Installation
 
-After cloning install composer
+After cloning:
 
+Create Data base and .env file
+
+- install composer
 ```bash
 composer install
 ```
 
-then instal NPM
+- instal NPM and run Dev
 ```bash
 npm install && npm run dev
 ```
