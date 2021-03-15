@@ -45,6 +45,20 @@
                                v-model="contact.contact_no">
                     </div>
 
+                    <div class="form-group mb-4">
+                        <label for="industry_id">Industry</label>
+                        <select class="form-control" name="industry_id" id="industry_id"
+                                v-model="selectedIndustry" >
+
+                            <option v-for="industry in industries"
+                                    v-bind:key="industry.id"
+                                    :value="industry.id"
+                            >{{industry.name}}</option>
+
+                        </select>
+
+                    </div>
+
                     <div class="form-group" v-if="contact.image">
                         <img :src="`${url + '/' + contact.image}`" alt="image" style="max-height: 200px; width: auto">
                     </div>
@@ -74,7 +88,9 @@ export default {
             bio: '',
             occupation: '',
             contact_no: '',
-            errors: []
+            errors: [],
+            industries: [],
+            selectedIndustry: ''
         }
     },
     methods: {
@@ -82,6 +98,7 @@ export default {
             let url = this.url + `/api/getContact/${this.$route.params.id}`;
                 this.$http.get(url).then((response) => {
                     this.contact = response.data;
+                    this.selectedIndustry = this.contact.industry_id
             });
         },
         updateContact() {
@@ -110,6 +127,8 @@ export default {
                 formData.append('occupation', this.contact.occupation);
                 formData.append('bio', this.contact.bio);
                 formData.append('contact_no', this.contact.contact_no);
+                formData.append('industry_id', this.selectedIndustry);
+
                 let url = this.url + `/api/updateContact/${this.$route.params.id}`;
                 this.$http.post(url, formData).then((response) => {
                     if (response.status) {
@@ -128,12 +147,21 @@ export default {
         },
         onImageChange(e) {
             this.image = e.target.files[0];
-        }
+        },
+        getIndustries() {
+            axios.get('/api/getIndustries').then((response) => {
+                this.industries = response.data;
+            })
+                .catch(response => {
+                    console.log('error loading industries!');
+                });
+        },
     },
     created() {
         this.localData();
     },
     mounted: function () {
+        this.getIndustries();
         console.log('Get Contact Component Loaded');
     }
 }

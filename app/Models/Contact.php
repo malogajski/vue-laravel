@@ -15,6 +15,7 @@ class Contact extends Model
         'bio',
         'contact_no',
         'occupation',
-        'image'
+        'image',
+        'industry_id'
     ];
 }

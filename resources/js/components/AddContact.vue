@@ -40,15 +40,20 @@
                     </div>
 
                     <div class="form-group">
+                        <label for="industry_id">Industry</label>
+                        <select class="form-control" name="industry_id" id="industry_id"
+                                v-model="selected.industry" >
+
+                            <option v-for="industry in industries" v-bind:key="'from-'+industry.id" :value="industry.id">{{industry.name}}</option>
+
+                        </select>
+                    </div>
+
+                    <div class="form-group">
                         <label for="contact_no">Contact Number</label>
                         <input type="email" id="contact_no" class="form-control" placeholder="Enter Contact Number"
                                v-model="contact.contact_no">
                     </div>
-
-                    <!--                    <div class="custom-file">-->
-                    <!--                        <input type="file" name="image" class="custom-file-input" id="validatedCustomFile">-->
-                    <!--                        <label for="validatedCustomFile">Choose file...</label>-->
-                    <!--                    </div>-->
 
                     <div class="form-group">
                         <input type="file" class="form-control" id="validatedCustomFile" v-on:change="saveImage">
@@ -77,9 +82,21 @@ export default {
             bio: '',
             occupation: '',
             contact_no: '',
-            errors: []
+            errors: [],
+            industries: [],
+            selected: {
+                industry:''
+            },
         }
     },
+
+    // watch: {
+    //     'inputs.from.indystry_id': function (value) {
+    //         console.log('Selected ID: ' + value);
+    //         this.industries.selected.id = value;
+    //     }
+    // },
+
     methods: {
         setContact() {
             this.errors = [];
@@ -107,6 +124,8 @@ export default {
                 formData.append('occupation', this.contact.occupation);
                 formData.append('bio', this.contact.bio);
                 formData.append('contact_no', this.contact.contact_no);
+                formData.append('industry_id', this.selected.industry);
+                // formData.append('industry_name', this.industry.name);
                 let url = this.url + '/api/setContact';
 
                 this.$http.post(url, formData).then((response) => {
@@ -131,9 +150,19 @@ export default {
         },
         saveImage(e) {
             this.image = e.target.files[0];
-        }
+        },
+        getIndustries() {
+            axios.get('/api/getIndustries').then((response) => {
+                this.industries = response.data;
+            })
+            .catch(response => {
+               console.log('error loading industries!');
+            });
+        },
+
     },
     mounted: function () {
+        this.getIndustries();
         console.log('Add Contacts Component Loaded');
     }
 }

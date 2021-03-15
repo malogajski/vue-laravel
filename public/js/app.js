@@ -1940,6 +1940,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   // name: "AddContact"
   data: function data() {
@@ -1951,9 +1956,19 @@ __webpack_require__.r(__webpack_exports__);
       bio: '',
       occupation: '',
       contact_no: '',
-      errors: []
+      errors: [],
+      industries: [],
+      selected: {
+        industry: ''
+      }
     };
   },
+  // watch: {
+  //     'inputs.from.indystry_id': function (value) {
+  //         console.log('Selected ID: ' + value);
+  //         this.industries.selected.id = value;
+  //     }
+  // },
   methods: {
     setContact: function setContact() {
       var _this = this;
@@ -1988,6 +2003,8 @@ __webpack_require__.r(__webpack_exports__);
         formData.append('occupation', this.contact.occupation);
         formData.append('bio', this.contact.bio);
         formData.append('contact_no', this.contact.contact_no);
+        formData.append('industry_id', this.selected.industry); // formData.append('industry_name', this.industry.name);
+
         var url = this.url + '/api/setContact';
         this.$http.post(url, formData).then(function (response) {
           if (response.status) {
@@ -2013,9 +2030,19 @@ __webpack_require__.r(__webpack_exports__);
     },
     saveImage: function saveImage(e) {
       this.image = e.target.files[0];
+    },
+    getIndustries: function getIndustries() {
+      var _this2 = this;
+
+      axios.get('/api/getIndustries').then(function (response) {
+        _this2.industries = response.data;
+      })["catch"](function (response) {
+        console.log('error loading industries!');
+      });
     }
   },
   mounted: function mounted() {
+    this.getIndustries();
     console.log('Add Contacts Component Loaded');
   }
 });
@@ -2182,6 +2209,20 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   // name: "AddContact"
   data: function data() {
@@ -2193,7 +2234,9 @@ __webpack_require__.r(__webpack_exports__);
       bio: '',
       occupation: '',
       contact_no: '',
-      errors: []
+      errors: [],
+      industries: [],
+      selectedIndustry: ''
     };
   },
   methods: {
@@ -2203,6 +2246,7 @@ __webpack_require__.r(__webpack_exports__);
       var url = this.url + "/api/getContact/".concat(this.$route.params.id);
       this.$http.get(url).then(function (response) {
         _this.contact = response.data;
+        _this.selectedIndustry = _this.contact.industry_id;
       });
     },
     updateContact: function updateContact() {
@@ -2238,6 +2282,7 @@ __webpack_require__.r(__webpack_exports__);
         formData.append('occupation', this.contact.occupation);
         formData.append('bio', this.contact.bio);
         formData.append('contact_no', this.contact.contact_no);
+        formData.append('industry_id', this.selectedIndustry);
         var url = this.url + "/api/updateContact/".concat(this.$route.params.id);
         this.$http.post(url, formData).then(function (response) {
           if (response.status) {
@@ -2256,12 +2301,22 @@ __webpack_require__.r(__webpack_exports__);
     },
     onImageChange: function onImageChange(e) {
       this.image = e.target.files[0];
+    },
+    getIndustries: function getIndustries() {
+      var _this3 = this;
+
+      axios.get('/api/getIndustries').then(function (response) {
+        _this3.industries = response.data;
+      })["catch"](function (response) {
+        console.log('error loading industries!');
+      });
     }
   },
   created: function created() {
     this.localData();
   },
   mounted: function mounted() {
+    this.getIndustries();
     console.log('Get Contact Component Loaded');
   }
 });
@@ -46222,6 +46277,58 @@ var render = function() {
             ]),
             _vm._v(" "),
             _c("div", { staticClass: "form-group" }, [
+              _c("label", { attrs: { for: "industry_id" } }, [
+                _vm._v("Industry")
+              ]),
+              _vm._v(" "),
+              _c(
+                "select",
+                {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.selected.industry,
+                      expression: "selected.industry"
+                    }
+                  ],
+                  staticClass: "form-control",
+                  attrs: { name: "industry_id", id: "industry_id" },
+                  on: {
+                    change: function($event) {
+                      var $$selectedVal = Array.prototype.filter
+                        .call($event.target.options, function(o) {
+                          return o.selected
+                        })
+                        .map(function(o) {
+                          var val = "_value" in o ? o._value : o.value
+                          return val
+                        })
+                      _vm.$set(
+                        _vm.selected,
+                        "industry",
+                        $event.target.multiple
+                          ? $$selectedVal
+                          : $$selectedVal[0]
+                      )
+                    }
+                  }
+                },
+                _vm._l(_vm.industries, function(industry) {
+                  return _c(
+                    "option",
+                    {
+                      key: "from-" + industry.id,
+                      domProps: { value: industry.id }
+                    },
+                    [_vm._v(_vm._s(industry.name))]
+                  )
+                }),
+                0
+              )
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "form-group" }, [
               _c("label", { attrs: { for: "contact_no" } }, [
                 _vm._v("Contact Number")
               ]),
@@ -46599,6 +46706,51 @@ var render = function() {
                   }
                 }
               })
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "form-group mb-4" }, [
+              _c("label", { attrs: { for: "industry_id" } }, [
+                _vm._v("Industry")
+              ]),
+              _vm._v(" "),
+              _c(
+                "select",
+                {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.selectedIndustry,
+                      expression: "selectedIndustry"
+                    }
+                  ],
+                  staticClass: "form-control",
+                  attrs: { name: "industry_id", id: "industry_id" },
+                  on: {
+                    change: function($event) {
+                      var $$selectedVal = Array.prototype.filter
+                        .call($event.target.options, function(o) {
+                          return o.selected
+                        })
+                        .map(function(o) {
+                          var val = "_value" in o ? o._value : o.value
+                          return val
+                        })
+                      _vm.selectedIndustry = $event.target.multiple
+                        ? $$selectedVal
+                        : $$selectedVal[0]
+                    }
+                  }
+                },
+                _vm._l(_vm.industries, function(industry) {
+                  return _c(
+                    "option",
+                    { key: industry.id, domProps: { value: industry.id } },
+                    [_vm._v(_vm._s(industry.name))]
+                  )
+                }),
+                0
+              )
             ]),
             _vm._v(" "),
             _vm.contact.image

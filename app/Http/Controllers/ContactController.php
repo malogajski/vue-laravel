@@ -14,6 +14,7 @@ class ContactController extends Controller
     }
 
     public function setContact(Request $request) {
+//        Log::info($request); exit();
         $contact = new Contact;
 
         if ($request->has('image') && !empty($request->image)) {
@@ -28,6 +29,7 @@ class ContactController extends Controller
         $contact->occupation = $request->occupation;
         $contact->bio = $request->bio;
         $contact->contact_no = $request->contact_no;
+        $contact->industry_id = $request->industry_id;
 
         if ($contact->save()) {
             return response()->json(['status' => true, 'message' => 'Contact Added Successfully']);
@@ -52,6 +54,7 @@ class ContactController extends Controller
         $contact->occupation = $request->occupation;
         $contact->bio = $request->bio;
         $contact->contact_no = $request->contact_no;
+        $contact->industry_id = $request->industry_id;
 
         if ($contact->save()) {
             return response()->json(['status' => true, 'message' => 'Contact Updated Successfully']);
