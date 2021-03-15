@@ -3,17 +3,21 @@
 namespace App\Http\Controllers;
 
 use App\Models\Contact;
+use Faker\Provider\File;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 
 class ContactController extends Controller
 {
-    public function getContacts() {
+    public function getContacts()
+    {
         $contacts = Contact::all();
         return $contacts;
     }
 
-    public function setContact(Request $request) {
+    public function setContact(Request $request)
+    {
 //        Log::info($request); exit();
         $contact = new Contact;
 
@@ -38,11 +42,23 @@ class ContactController extends Controller
         }
     }
 
-    public function updateContact(Request $request, $id) {
+    public function updateContact(Request $request, $id)
+    {
 
         $contact = Contact::where('id', $id)->first();
 
         if ($request->has('image') && !empty($request->image) && is_object($request->image)) {
+            // First delete existing image
+            if (!empty($contact->image) && $contact->image !== $request->image) {
+
+                $old_image_path = public_path() .'/'. $contact->image;
+
+                if (file_exists($old_image_path)) {
+                    unlink($old_image_path);
+                }
+            }
+
+            // Then upload new image
             $image_name = time() . '.' . $request->image->getClientOriginalExtension();
             $request->image->move(public_path('images/gallery'), $image_name);
             $path = ('images/gallery/' . $image_name);
@@ -63,16 +79,18 @@ class ContactController extends Controller
         }
     }
 
-    public function deleteContact($id) {
+    public function deleteContact($id)
+    {
         $contact = Contact::find($id);
         if ($contact->delete()) {
-            return response()->json(['status'=>true, 'message'=> 'Contact Deleted Successfully']);
+            return response()->json(['status' => true, 'message' => 'Contact Deleted Successfully']);
         } else {
-            return response()->json(['status'=>false, 'message'=> 'Something Went Wrong']);
+            return response()->json(['status' => false, 'message' => 'Something Went Wrong']);
         }
     }
 
-    public function getContact($id) {
+    public function getContact($id)
+    {
         $contact = Contact::find($id);
         return response()->json($contact);
     }

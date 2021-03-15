@@ -59,8 +59,8 @@
 
                     </div>
 
-                    <div class="form-group" v-if="contact.image">
-                        <img :src="`${url + '/' + contact.image}`" alt="image" style="max-height: 200px; width: auto">
+                    <div class="form-group mb-4" v-if="contact.image">
+                        <img :src="imgSrc" alt="image" style="max-height: 200px; width: auto">
                     </div>
                     <div class="form-group">
                         <input type="file" class="form-control" id="validatedCustomFile" v-on:change="onImageChange" >
@@ -90,7 +90,8 @@ export default {
             contact_no: '',
             errors: [],
             industries: [],
-            selectedIndustry: ''
+            selectedIndustry: '',
+            imgSrc: ''
         }
     },
     methods: {
@@ -98,7 +99,8 @@ export default {
             let url = this.url + `/api/getContact/${this.$route.params.id}`;
                 this.$http.get(url).then((response) => {
                     this.contact = response.data;
-                    this.selectedIndustry = this.contact.industry_id
+                    this.selectedIndustry = this.contact.industry_id;
+                    this.imgSrc = this.url + '/' + this.contact.image;
             });
         },
         updateContact() {
@@ -147,7 +149,19 @@ export default {
         },
         onImageChange(e) {
             this.image = e.target.files[0];
+
+            this.createImage(this.image);
         },
+        createImage(file) {
+
+            let reader = new FileReader();
+
+            reader.onload = (e) => {
+                this.imgSrc = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        },
+
         getIndustries() {
             axios.get('/api/getIndustries').then((response) => {
                 this.industries = response.data;

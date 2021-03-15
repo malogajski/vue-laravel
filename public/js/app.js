@@ -2236,7 +2236,8 @@ __webpack_require__.r(__webpack_exports__);
       contact_no: '',
       errors: [],
       industries: [],
-      selectedIndustry: ''
+      selectedIndustry: '',
+      imgSrc: ''
     };
   },
   methods: {
@@ -2247,6 +2248,7 @@ __webpack_require__.r(__webpack_exports__);
       this.$http.get(url).then(function (response) {
         _this.contact = response.data;
         _this.selectedIndustry = _this.contact.industry_id;
+        _this.imgSrc = _this.url + '/' + _this.contact.image;
       });
     },
     updateContact: function updateContact() {
@@ -2301,12 +2303,24 @@ __webpack_require__.r(__webpack_exports__);
     },
     onImageChange: function onImageChange(e) {
       this.image = e.target.files[0];
+      this.createImage(this.image);
     },
-    getIndustries: function getIndustries() {
+    createImage: function createImage(file) {
       var _this3 = this;
 
+      var reader = new FileReader();
+
+      reader.onload = function (e) {
+        _this3.imgSrc = e.target.result;
+      };
+
+      reader.readAsDataURL(file);
+    },
+    getIndustries: function getIndustries() {
+      var _this4 = this;
+
       axios.get('/api/getIndustries').then(function (response) {
-        _this3.industries = response.data;
+        _this4.industries = response.data;
       })["catch"](function (response) {
         console.log('error loading industries!');
       });
@@ -46754,13 +46768,10 @@ var render = function() {
             ]),
             _vm._v(" "),
             _vm.contact.image
-              ? _c("div", { staticClass: "form-group" }, [
+              ? _c("div", { staticClass: "form-group mb-4" }, [
                   _c("img", {
                     staticStyle: { "max-height": "200px", width: "auto" },
-                    attrs: {
-                      src: "" + (_vm.url + "/" + _vm.contact.image),
-                      alt: "image"
-                    }
+                    attrs: { src: _vm.imgSrc, alt: "image" }
                   })
                 ])
               : _vm._e(),
